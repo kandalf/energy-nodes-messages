@@ -1,4 +1,4 @@
-require_relative 'lib/messenger'
+require_relative 'messenger'
 
 class Device
   include Messenger
