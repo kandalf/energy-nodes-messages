@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/device"
+
+max_nodes = ENV["MAX_DEVICES"].to_i
+max_nodes = 2 unless max_nodes > 0
+
+begin
+  threads = []
+
+  max_nodes.times do
+    threads << Thread.new{ Device.new.run }
+  end
+
+  threads.each{ |thread| thread.join }
+
+rescue Interrupt => _
+  puts "[*] Terminating threads..."
+
+  threads.each do |thread|
+    thread.exit while thread.alive?
+  end
+
+  puts "[*] Bye!"
+end
