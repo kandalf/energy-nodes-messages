@@ -5,8 +5,6 @@ require_relative 'fake_mutex'
 class EnergyNode
   include Messenger
 
-  ENERGY_CHUNK = 200
-
   def initialize
     connection.start
     @channel      = connection.create_channel
@@ -41,5 +39,6 @@ end
 
 def deliver_energy_to(id)
   # Use an exchange to «deliver energy» to the device with the ID `id`
-  @delivery_xch.publish("200", :routing_key => id)
+  amount = rand(150..200)
+  @delivery_xch.publish(amount.to_s, :routing_key => id)
 end
