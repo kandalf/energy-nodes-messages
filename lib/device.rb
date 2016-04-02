@@ -28,7 +28,7 @@ class Device
     begin
       EventMachine.run do
         #Request energy every 5 seconds
-        @timer = EventMachine::PeriodicTimer.new(5) do
+        timer = EventMachine::PeriodicTimer.new(5) do
           request_energy
         end
 
@@ -37,7 +37,7 @@ class Device
         end
       end
     rescue Interrupt => _
-      @timer.cancel
+      timer.cancel
       @channel.close
       connection.close
     end
