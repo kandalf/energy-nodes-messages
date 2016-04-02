@@ -33,7 +33,7 @@ class Device
         end
 
         @queue.subscribe(:lock => true) do |info, properties, body|
-          puts "[#{Time.now.utc.to_s}] Receiving #{body}"
+          log "Receiving #{body}"
         end
       end
     rescue Interrupt => _

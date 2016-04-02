@@ -9,4 +9,8 @@ module Messenger
   def connection
     @connection ||= Bunny.new
   end
+
+  def log(message)
+    puts "[#{Time.now.utc.to_s}] #{message}"
+  end
 end
