@@ -22,11 +22,11 @@ class EnergyNode
         msg = JSON.parse(body)
 
         #Claim device in need if it's not locked by other node
-        unless FakeMutex.locked?(msg["node_id"])
-          FakeMutex.lock(msg["node_id"]) {
-            log "Delivering energy from node #{id} to #{msg["node_id"]}"
+        unless FakeMutex.locked?(msg["device_id"])
+          FakeMutex.lock(msg["device_id"]) {
+            log "Delivering energy from node #{id} to #{msg["device_id"]}"
 
-            deliver_energy_to(msg["node_id"])
+            deliver_energy_to(msg["device_id"])
           }
         end
       end
@@ -37,8 +37,8 @@ class EnergyNode
   end
 end
 
-def deliver_energy_to(id)
+def deliver_energy_to(device_id)
   # Use an exchange to «deliver energy» to the device with the ID `id`
   amount = rand(150..200)
-  @delivery_xch.publish(amount.to_s, :routing_key => id)
+  @delivery_xch.publish(amount.to_s, :routing_key => device_id)
 end
