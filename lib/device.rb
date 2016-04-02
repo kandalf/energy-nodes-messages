@@ -18,7 +18,7 @@ class Device
   end
 
   def request_energy
-    @message = { :node_id => id, :message => :need_energy }
+    @message = { :node_id => id }
     @exchange.publish(@message.to_json)
   end
 
