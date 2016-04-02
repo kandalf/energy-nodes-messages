@@ -18,9 +18,4 @@ module FakeMutex
   def self.free(id)
     @register.delete(id)
   end
-
-  def register
-    puts @register
-    @register ||= []
-  end
 end
