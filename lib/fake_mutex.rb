@@ -1,3 +1,5 @@
+# Simple mutex functionality to grant single delivery to devices
+#
 module FakeMutex
   @register = []
 
@@ -6,7 +8,7 @@ module FakeMutex
 
     if block_given?
       yield
-      sleep 1
+      sleep 0.3 #add minimum delay to grant lock
       self.free(id)
     end
   end

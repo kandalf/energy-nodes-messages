@@ -19,12 +19,15 @@ class Device
   end
 
   def run
+    #EventMachine cannot be stopped in the rescue block since it will
+    #raise a context error
     Signal.trap("TERM"){ EventMachine.stop }
     Signal.trap("INT"){ EventMachine.stop }
     @queue.bind(@nrg_xchange, :routing_key => id)
 
     begin
       EventMachine.run do
+        #Request energy every 5 seconds
         @timer = EventMachine::PeriodicTimer.new(5) do
           request_energy
         end

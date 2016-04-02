@@ -17,13 +17,13 @@ class EnergyNode
 
   def run
     @queue.bind(@requests_xch)
-
     puts "[#{Time.now.utc.to_s}] Energy Node #{id} running. Press Ctrl+C to exit"
 
     begin
       @queue.subscribe(:block => true) do |info, properties, body|
         msg = JSON.parse(body)
 
+        #Claim device in need if it's not locked by other node
         unless FakeMutex.locked?(msg["node_id"])
           FakeMutex.lock(msg["node_id"]) {
             puts "[#{Time.now.utc.to_s}] Delivering energy from node #{id} to #{msg["node_id"]}"
@@ -40,5 +40,6 @@ class EnergyNode
 end
 
 def deliver_energy_to(id)
+  # Use an exchange to «deliver energy» to the device with the ID `id`
   @delivery_xch.publish("200", :routing_key => id)
 end
