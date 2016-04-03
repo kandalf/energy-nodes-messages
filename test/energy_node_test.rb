@@ -14,6 +14,11 @@ describe "EnergyNode" do
     @node.stubs(:log) #Supress unnecessary output
   end
 
+  after do
+    JSON.unstub(:parse)
+    FakeMutex.unstub(:locked?)
+  end
+
   it "should setup exchanges" do
     xchg_names = @node.connection.channels[1].exchanges.keys
 
