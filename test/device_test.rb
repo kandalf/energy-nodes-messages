@@ -18,7 +18,7 @@ end
 describe "Device" do
   before do
     @dev = Device.new
-    @dev.stubs(:log).returns(true) #Supress unnecessary output
+    @dev.stubs(:log) #Supress unnecessary output
   end
 
   it "should setup exchanges" do
