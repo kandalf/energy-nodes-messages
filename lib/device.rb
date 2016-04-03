@@ -3,6 +3,8 @@ require 'json'
 require_relative 'messenger'
 
 class Device
+  attr_reader :energy_level
+
   include Messenger
 
   ENERGY_ALERT_LEVEL = 200
@@ -15,6 +17,7 @@ class Device
     @nrg_xchange = @channel.topic("energy_delivery")
     @queue = @channel.queue("", :exclusive => true)
     @energy_level = ENERGY_FULL_LEVEL
+    @recharging = false
   end
 
   def request_energy
@@ -27,7 +30,7 @@ class Device
       @recharging = true
     end
 
-    @recharging && @energy_level < ENERGY_FULL_LEVEL
+    @recharging && (@energy_level < ENERGY_FULL_LEVEL)
   end
 
   def run
@@ -58,6 +61,12 @@ class Device
     end
   end
 
+  def energy_consuming_task
+    log "[#{id}] Discharging... #{@energy_level * 100 / ENERGY_FULL_LEVEL}%" unless @recharging
+    @energy_level -= rand(20..35)
+    raise "Out Of Energy" if @energy_level <= 0
+  end
+
   private
   def store_energy(amount)
     @energy_level += amount
@@ -68,11 +77,5 @@ class Device
       @recharging = false
       log "Charged!"
     end
-  end
-
-  def energy_consuming_task
-    log "[#{id}] Discharging... #{@energy_level * 100 / ENERGY_FULL_LEVEL}%" unless @recharging
-    @energy_level -= rand(20..35)
-    raise "Out Of Energy" if @energy_level <= 0
   end
 end
