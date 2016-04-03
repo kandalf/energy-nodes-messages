@@ -1,12 +1,5 @@
 require File.expand_path(__FILE__).concat("/../test_helper")
 
-#Monkey patch to make channels accessible so
-#we can ensure exchanges are created properly
-#on construction.
-class Bunny::Session
-  attr_reader :channels
-end
-
 #Monkey patches to avoid repetitive excecutions of EventMachine
 #but keeping the blocks functionalities passed to its methods
 module EventMachine
