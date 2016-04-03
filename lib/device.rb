@@ -63,7 +63,7 @@ class Device
 
   def energy_consuming_task
     log "[#{id}] Discharging... #{@energy_level * 100 / ENERGY_FULL_LEVEL}%" unless @recharging
-    @energy_level -= rand(20..35)
+    @energy_level -= rand(40..85)
     raise "Out Of Energy" if @energy_level <= 0
   end
 
