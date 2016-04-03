@@ -12,12 +12,12 @@ class Device
 
   def initialize
     connection.start
-    @channel     = connection.create_channel
-    @exchange    = @channel.topic("energy_requests")
-    @nrg_xchange = @channel.topic("energy_delivery")
-    @queue = @channel.queue("", :exclusive => true)
+    @channel      = connection.create_channel
+    @exchange     = @channel.topic("energy_requests")
+    @nrg_xchange  = @channel.topic("energy_delivery")
+    @queue        = @channel.queue("", :exclusive => true)
     @energy_level = ENERGY_FULL_LEVEL
-    @recharging = false
+    @recharging   = false
   end
 
   def request_energy
