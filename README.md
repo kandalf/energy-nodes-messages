@@ -1,4 +1,4 @@
-#Energy nodes messages
+# Energy nodes messages
 
 This is a simple Proof of Concept of nodes pub/sub messaging system.
 The underlying concept is nodes (`Devices`) that can ask for energy through an AMQP message, then another node (`EnergyNode`) subscribed to the proper exchange, can provide energy to the soliciting node.
